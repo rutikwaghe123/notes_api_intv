@@ -17,25 +17,21 @@ app.use(morgan("common"));
 app.use(helmet());
 
 //database connection
-mongoose
-  .connect(process.env.MONGODB_URL
-  //   , {
-  //   useNewUrlParser: true,
-  //   useUnifiedTopology: true,
-  // }
-  )
-  .then(() => {
-    console.log("Mongodb database connected");
-  })
-  .catch(() => console.log("Mongodb database error"));
-
-//add routes
-// app.use("/", (req, res)=>{
-//   res.send({message:"Welcome to the Note App API"})
-// });
+mongoose.set("strictQuery", false);
+const connectToDb = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URL);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(`Error connecting to database: ${error}`);
+  }
+};
 
 app.use("/api/auth", authRouter);
 app.use("/api/notes", noteRouter);
+
+
+connectToDb()
 
 //running port
 app.listen(port, () => {
