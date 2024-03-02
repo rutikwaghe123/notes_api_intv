@@ -28,9 +28,10 @@ mongoose
   .catch(() => console.log("Mongodb database error"));
 
 //add routes
-app.use("/", (req, res)=>{
-  res.send({message:"Welcome to the Note App API"})
-});
+// app.use("/", (req, res)=>{
+//   res.send({message:"Welcome to the Note App API"})
+// });
+
 app.use("/api/auth", authRouter);
 app.use("/api/notes", noteRouter);
 
